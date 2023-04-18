@@ -74,17 +74,18 @@ RAFT_INST(int8_t, uint32_t, memory_type::device, memory_type::host);
 
 #undef RAFT_INST
 
-// #define RAFT_INST(T, IdxT)                                      \
-//   extern template void search<T, IdxT>(                         \
-//     raft::device_resources const& handle,                       \
-//     const search_params& params,                                \
-//     const index<T, IdxT>& idx,                                  \
-//     raft::device_matrix_view<const T, IdxT, row_major> queries, \
-//     raft::device_matrix_view<IdxT, IdxT, row_major> neighbors,  \
-//     raft::device_matrix_view<float, IdxT, row_major> distances);
+/* #define RAFT_INST(T, IdxT)                                      \
+  extern template void search<T, IdxT>(                         \
+    raft::device_resources const& handle,                       \
+    const search_params& params,                                \
+    const index<T, IdxT>& idx,                                  \
+    raft::device_matrix_view<const T, IdxT, row_major> queries, \
+    raft::device_matrix_view<IdxT, IdxT, row_major> neighbors,  \
+    raft::device_matrix_view<float, IdxT, row_major> distances);
 
-// RAFT_INST(float, uint32_t)
+RAFT_INST(float, uint32_t)
 #undef RAFT_INST
+*/
 }  // namespace raft::neighbors::experimental::cagra
 namespace raft::neighbors::experimental::cagra::detail::single_cta_search {
 // extern template struct search<4, 128, float, uint32_t, float>;
