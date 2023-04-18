@@ -35,6 +35,13 @@
 #include <raft/neighbors/ivf_pq_types.hpp>
 #include <raft/neighbors/refine.cuh>
 
+#ifdef RAFT_COMPILED
+#include <raft/neighbors/specializations/ivf_pq.cuh>
+#include <raft/neighbors/specializations/refine.cuh>
+#else
+#pragma message("Specializations are not enabled; expect very long building times.")
+#endif
+
 namespace raft::neighbors::experimental::cagra::detail {
 
 using INDEX_T = std::uint32_t;

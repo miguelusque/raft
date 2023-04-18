@@ -172,6 +172,8 @@ endif()
 add_library(raft INTERFACE)
 add_library(raft::raft ALIAS raft)
 
+target_compile_definitions(raft INTERFACE RAFT_ACTIVE_LEVEL=5)
+
 target_include_directories(
   raft INTERFACE "$<BUILD_INTERFACE:${RAFT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>"
 )
@@ -269,6 +271,50 @@ if(RAFT_COMPILE_LIBRARY)
     src/cluster/update_centroids_double.cu
     src/cluster/cluster_cost_float.cu
     src/cluster/cluster_cost_double.cu
+    src/neighbors/cagra/prune.cu
+    src/neighbors/cagra/build_float_uint32_device.cu
+    src/neighbors/cagra/build_float_uint32_host.cu
+    src/neighbors/cagra/search_float_dim1024_t32.cu
+    # src/neighbors/cagra/search_float_dim128_t16.cu
+    # src/neighbors/cagra/search_float_dim128_t32.cu
+    # src/neighbors/cagra/search_float_dim128_t4.cu
+    src/neighbors/cagra/search_float_dim128_t8.cu
+    src/neighbors/cagra/search_float_dim256_t16.cu
+    # src/neighbors/cagra/search_float_dim256_t32.cu
+    # src/neighbors/cagra/search_float_dim256_t8.cu
+    # src/neighbors/cagra/search_float_dim512_t16.cu
+    src/neighbors/cagra/search_float_dim512_t32.cu
+    # src/neighbors/cagra/search_half_dim1024_t32.cu
+    # src/neighbors/cagra/search_half_dim128_t16.cu
+    # src/neighbors/cagra/search_half_dim128_t32.cu
+    # src/neighbors/cagra/search_half_dim128_t4.cu
+    # src/neighbors/cagra/search_half_dim128_t8.cu
+    # src/neighbors/cagra/search_half_dim256_t16.cu
+    # src/neighbors/cagra/search_half_dim256_t32.cu
+    # src/neighbors/cagra/search_half_dim256_t8.cu
+    # src/neighbors/cagra/search_half_dim512_t16.cu
+    # src/neighbors/cagra/search_half_dim512_t32.cu
+    # src/neighbors/cagra/search_int8_t_dim1024_t32.cu
+    # src/neighbors/cagra/search_int8_t_dim128_t16.cu
+    # src/neighbors/cagra/search_int8_t_dim128_t32.cu
+    # src/neighbors/cagra/search_int8_t_dim128_t4.cu
+    # src/neighbors/cagra/search_int8_t_dim128_t8.cu
+    # src/neighbors/cagra/search_int8_t_dim256_t16.cu
+    # src/neighbors/cagra/search_int8_t_dim256_t32.cu
+    # src/neighbors/cagra/search_int8_t_dim256_t8.cu
+    # src/neighbors/cagra/search_int8_t_dim512_t16.cu
+    # src/neighbors/cagra/search_int8_t_dim512_t32.cu
+    # src/neighbors/cagra/search_uint8_t_dim1024_t32.cu
+    # src/neighbors/cagra/search_uint8_t_dim128_t16.cu
+    # src/neighbors/cagra/search_uint8_t_dim128_t32.cu
+    # src/neighbors/cagra/search_uint8_t_dim128_t4.cu
+    # src/neighbors/cagra/search_uint8_t_dim128_t8.cu
+    # src/neighbors/cagra/search_uint8_t_dim256_t16.cu
+    # src/neighbors/cagra/search_uint8_t_dim256_t32.cu
+    # src/neighbors/cagra/search_uint8_t_dim256_t8.cu
+    # src/neighbors/cagra/search_uint8_t_dim512_t16.cu
+    # src/neighbors/cagra/search_uint8_t_dim512_t32.cu
+    src/neighbors/cagra/topk.cu
     src/neighbors/refine_d_int64_t_float.cu
     src/neighbors/refine_d_int64_t_int8_t.cu
     src/neighbors/refine_d_int64_t_uint8_t.cu
@@ -463,7 +509,7 @@ if(RAFT_COMPILE_LIBRARY)
     raft_lib PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${RAFT_CXX_FLAGS}>"
                      "$<$<COMPILE_LANGUAGE:CUDA>:${RAFT_CUDA_FLAGS}>"
   )
-  target_compile_definitions(raft_lib INTERFACE "RAFT_COMPILED")
+  target_compile_definitions(raft_lib PUBLIC "RAFT_COMPILED")
 
   # ensure CUDA symbols aren't relocated to the middle of the debug build binaries
   target_link_options(raft_lib PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/fatbin.ld")
