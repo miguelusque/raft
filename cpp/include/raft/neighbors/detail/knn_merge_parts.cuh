@@ -32,8 +32,8 @@ template <typename value_idx = std::int64_t,
           int tpb>
 __global__ void knn_merge_parts_kernel(const value_t* const inK,
                                        const value_idx* const inV,
-                                       value_t* const outK,
-                                       value_idx* const outV,
+                                       value_t* outK,
+                                       value_idx* outV,
                                        size_t n_samples,
                                        int n_parts,
                                        value_t initK,
@@ -65,8 +65,8 @@ __global__ void knn_merge_parts_kernel(const value_t* const inK,
 
   int col = i % k;
 
-  value_t* inKStart   = inK + (row_idx + col);
-  value_idx* inVStart = inV + (row_idx + col);
+  const value_t* inKStart   = inK + (row_idx + col);
+  const value_idx* inVStart = inV + (row_idx + col);
 
   int limit             = Pow2<WarpSize>::roundDown(total_k);
   value_idx translation = 0;
