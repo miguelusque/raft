@@ -39,6 +39,12 @@
 #include <string>
 #include <vector>
 
+#ifdef RAFT_COMPILED
+#include <raft/neighbors/specializations/cagra.cuh>
+#else
+#pragma message("Specializations are not enabled; expect very long building times.")
+#endif
+
 namespace raft::neighbors::experimental::cagra {
 
 struct AnnCagraInputs {
